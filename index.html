@@ -1339,9 +1339,10 @@ function exportViewportDimensions(){
   return{width:even(cssWidth*scale),height:even(cssHeight*scale),cssWidth,cssHeight}
 }
 function runtimeTileCoverageReady(runtime,level){return !level||runtime.level?.width===level.width&&runtime.desired.size>0&&[...runtime.desired].every(key=>runtime.loaded.has(key))}
-async function waitForViewportExportTiles(geometry,timeout=20000){
-  invalidateTilePlans();renderGeometry(geometry,true);const started=performance.now();
-  while(true){const colorReady=runtimeTileCoverageReady(tileRuntime,selectTileLevel(state.view.zoom)),heightReady=runtimeTileCoverageReady(heightTileRuntime,selectHeightTileLevel(state.view.zoom));if(colorReady&&heightReady)return true;if(performance.now()-started>=timeout)return false;await new Promise(resolve=>setTimeout(resolve,80))}
+function runtimeLoadedCoverageCount(runtime){let count=0;for(const key of runtime.desired)if(runtime.loaded.has(key))count++;return count}
+async function waitForViewportExportTiles(geometry,maxWait=75000,stallWait=30000){
+  invalidateTilePlans();renderGeometry(geometry,true);const started=performance.now();let lastProgress=started,lastLoaded=runtimeLoadedCoverageCount(tileRuntime)+runtimeLoadedCoverageCount(heightTileRuntime);
+  while(true){const colorReady=runtimeTileCoverageReady(tileRuntime,selectTileLevel(state.view.zoom)),heightReady=runtimeTileCoverageReady(heightTileRuntime,selectHeightTileLevel(state.view.zoom));if(colorReady&&heightReady)return true;const now=performance.now(),loaded=runtimeLoadedCoverageCount(tileRuntime)+runtimeLoadedCoverageCount(heightTileRuntime);if(loaded>lastLoaded){lastLoaded=loaded;lastProgress=now}if(now-started>=maxWait||now-lastProgress>=stallWait)return false;await new Promise(resolve=>setTimeout(resolve,80))}
 }
 function paintViewportExportBackground(ctx,date,width,height,geometry,view,viewSize){
   const moonRadius=.44*viewSize*(geometry.moonScale||1)*view.zoom,centerX=width/2-moonRadius*view.pan[0],centerY=height/2+moonRadius*view.pan[1],shortEdge=Math.min(width,height),outerRadius=Math.max(moonRadius*1.48,shortEdge*.72),glow=ctx.createRadialGradient(centerX,centerY,Math.max(1,moonRadius*.12),centerX,centerY,outerRadius),seed=(Math.floor(date.getTime()/60000)^Math.round((state.lat+90)*10000)^Math.imul(Math.round((state.lon+180)*10000),31))>>>0,random=seededRandom(seed),starScale=clamp(shortEdge/2400,.72,1.7),starCount=clamp(Math.round(EXPORT_STAR_BASE_COUNT*width*height/(2400*2400)),78,260);
