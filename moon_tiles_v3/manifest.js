@@ -1,1 +1,0 @@
-window.MOON_TILE_MANIFEST={"version":1,"projection":"equirectangular","tileSize":512,"border":2,"format":"webp","levels":[{"width":8192,"height":4096,"columns":16,"rows":8,"path":"8192/{x}_{y}.webp"},{"width":16384,"height":8192,"columns":32,"rows":16,"path":"16384/{x}_{y}.webp"}]};
