@@ -1348,7 +1348,7 @@ function paintViewportExportBackground(ctx,date,width,height,geometry,view,viewS
   ctx.save();ctx.fillStyle='#010205';ctx.fillRect(0,0,width,height);glow.addColorStop(0,'rgba(39,47,61,.88)');glow.addColorStop(.42,'rgba(20,25,35,.72)');glow.addColorStop(.72,'rgba(9,12,19,.48)');glow.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,width,height);for(let i=0;i<starCount;i++){const x=random()*width,y=random()*height,r=(.55+random()*1.75)*starScale,a=.14+random()*.42;ctx.fillStyle=`rgba(230,232,236,${a.toFixed(3)})`;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill()}ctx.restore()
 }
 function paintViewportExportTypography(ctx,date,width,height){
-  paintCenteredExportTypography(ctx,date,width,height,clamp(Math.min(width,height)/2400,.72,1.7))
+  paintCenteredExportTypography(ctx,date,width,height,clamp(Math.min(width,height)/EXPORT_LAYOUT_SIZE,.72,EXPORT_SIZE/EXPORT_LAYOUT_SIZE))
 }
 let exportStatusClearTimer=0;
 function clearPendingExportStatusTimer(){if(exportStatusClearTimer){clearTimeout(exportStatusClearTimer);exportStatusClearTimer=0}}
