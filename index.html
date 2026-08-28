@@ -1284,7 +1284,7 @@ el('timeInput').addEventListener('change',()=>{state.simDate=inputValueToDate(el
 
 // ---------- 4800 × 4800 observation export ----------
 const EXPORT_SIZE=4800,EXPORT_LAYOUT_SIZE=2400,EXPORT_RENDER_BASE_SIZE=2048;
-function exportLocationLabel(){if(state.locationName){const localized=currentLang==='zh'?state.locationName.zh:state.locationName.en;if(localized)return localized}return currentLang==='zh'?'自定义位置':'Custom Location'}
+function exportLocationLabel(){if(!state.locationName)return'';return(currentLang==='zh'?state.locationName.zh:state.locationName.en)||''}
 function exportCoordinateLabel(){const ns=state.lat>=0?'N':'S',ew=state.lon>=0?'E':'W';return`${Math.abs(state.lat).toFixed(2)}° ${ns}   ${Math.abs(state.lon).toFixed(2)}° ${ew}`}
 function exportUtcOffsetLabel(date){const offset=state.autoTimeZone&&state.timeZone?timeZoneOffsetAt(date,state.timeZone):state.tz,sign=offset>=0?'+':'-',absolute=Math.abs(offset),hours=Math.floor(absolute),minutes=Math.round((absolute-hours)*60);return`UTC${sign}${pad(hours)}${minutes?':'+pad(minutes):''}`}
 function exportTimeLabel(date){const p=localPartsForDate(date),clock=`${pad(p.hour)}:${pad(p.minute)}`,zone=exportUtcOffsetLabel(date);return currentLang==='zh'?`${p.year}.${pad(p.month)}.${pad(p.day)}   ${clock}   ${zone}`:`${pad(p.day)}.${pad(p.month)}.${p.year}   ${clock}   ${zone}`}
@@ -1299,8 +1299,7 @@ function paintCenteredExportTypography(ctx,date,width,height,unit){
   const centerX=width/2,city=exportLocationLabel(),time=exportTimeLabel(date),coordinates=exportCoordinateLabel(),bottom=Math.max(56*unit,Math.min(width,height)*.064),coordY=height-bottom,timeY=coordY-31*unit,ruleY=coordY-66*unit,cityY=coordY-98*unit,cityFamily=currentLang==='zh'?'"Noto Serif SC","Source Han Serif SC","Songti SC","STSong",serif':'"Marcellus SC",Georgia,"Times New Roman",serif',citySize=(currentLang==='zh'?68:66)*unit,cityMin=36*unit,trackingRatio=currentLang==='zh'?.2:.14;
   ctx.save();
   ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.shadowColor='rgba(0,0,0,.82)';ctx.shadowBlur=9*unit;ctx.shadowOffsetY=2*unit;ctx.fillStyle='rgba(255,255,255,1)';
-  const tracking=fitTrackedFont(ctx,city,citySize,cityMin,cityFamily,currentLang==='zh'?500:400,trackingRatio,width*.76);drawTrackedTextCentered(ctx,city,centerX,cityY,tracking);
-  ctx.shadowBlur=4*unit;ctx.shadowOffsetY=1*unit;ctx.fillStyle='rgba(205,211,218,.92)';ctx.fillRect(centerX-34*unit,ruleY,68*unit,Math.max(1,unit));
+  if(city){const tracking=fitTrackedFont(ctx,city,citySize,cityMin,cityFamily,currentLang==='zh'?500:400,trackingRatio,width*.76);drawTrackedTextCentered(ctx,city,centerX,cityY,tracking);ctx.shadowBlur=4*unit;ctx.shadowOffsetY=1*unit;ctx.fillStyle='rgba(205,211,218,.92)';ctx.fillRect(centerX-34*unit,ruleY,68*unit,Math.max(1,unit))}
   ctx.textAlign='center';ctx.lineJoin='round';ctx.strokeStyle='rgba(0,2,6,.46)';ctx.lineWidth=Math.max(1,1.35*unit);
   ctx.font=`400 ${26*unit}px -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif`;ctx.strokeText(time,centerX,timeY);ctx.fillStyle='rgba(232,235,239,.97)';ctx.fillText(time,centerX,timeY);
   ctx.lineWidth=Math.max(.9,1.15*unit);ctx.font=`400 ${22*unit}px -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif`;ctx.strokeText(coordinates,centerX,coordY);ctx.fillStyle='rgba(207,212,218,.95)';ctx.fillText(coordinates,centerX,coordY);
