@@ -155,15 +155,10 @@ body.simple-mode .viewer:before,
 .modeBackdropTransition.simple:before,
 .simpleStarTransitionLayer{
   opacity:.52;
-  background-image:
-    radial-gradient(circle,rgba(242,246,252,.78) 0 .58px,transparent 1px),
-    radial-gradient(circle,rgba(192,204,222,.55) 0 .72px,transparent 1.12px),
-    radial-gradient(circle,rgba(255,255,255,.46) 0 1px,transparent 1.45px),
-    radial-gradient(circle,rgba(167,181,202,.42) 0 .54px,transparent .94px),
-    radial-gradient(circle,rgba(255,255,255,.58) 0 1.16px,transparent 1.72px),
-    radial-gradient(circle,rgba(225,234,246,.62) 0 1.22px,transparent 1.82px);
-  background-size:239px 251px,371px 353px,541px 523px,719px 769px,929px 883px,1277px 1193px;
-  background-position:var(--simple-star-position,17px 29px,109px 73px,43px 193px,271px 127px,389px 263px,601px 407px);
+  background-image:var(--simple-star-image,none);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:100% 100%;
   -webkit-mask-image:radial-gradient(circle at 50% 48%,rgba(0,0,0,.44) 0,rgba(0,0,0,.76) 48%,#000 100%);
   mask-image:radial-gradient(circle at 50% 48%,rgba(0,0,0,.44) 0,rgba(0,0,0,.76) 48%,#000 100%);
 }
@@ -998,7 +993,7 @@ installMoonDebugGesture(el('mainTitle'));
 const WORLD_CITIES=[
   {id:'shanghai',zh:'上海',en:'Shanghai',lat:31.2304,lon:121.4737,zone:'Asia/Shanghai'},{id:'beijing',zh:'北京',en:'Beijing',lat:39.9042,lon:116.4074,zone:'Asia/Shanghai'},{id:'tokyo',zh:'东京',en:'Tokyo',lat:35.6762,lon:139.6503,zone:'Asia/Tokyo'},{id:'seoul',zh:'首尔',en:'Seoul',lat:37.5665,lon:126.9780,zone:'Asia/Seoul'},{id:'hongkong',zh:'香港',en:'Hong Kong',lat:22.3193,lon:114.1694,zone:'Asia/Hong_Kong'},{id:'singapore',zh:'新加坡',en:'Singapore',lat:1.3521,lon:103.8198,zone:'Asia/Singapore'},{id:'bangkok',zh:'曼谷',en:'Bangkok',lat:13.7563,lon:100.5018,zone:'Asia/Bangkok'},{id:'jakarta',zh:'雅加达',en:'Jakarta',lat:-6.2088,lon:106.8456,zone:'Asia/Jakarta'},{id:'manila',zh:'马尼拉',en:'Manila',lat:14.5995,lon:120.9842,zone:'Asia/Manila'},{id:'delhi',zh:'德里',en:'Delhi',lat:28.6139,lon:77.2090,zone:'Asia/Kolkata'},{id:'karachi',zh:'卡拉奇',en:'Karachi',lat:24.8607,lon:67.0011,zone:'Asia/Karachi'},{id:'dhaka',zh:'达卡',en:'Dhaka',lat:23.8103,lon:90.4125,zone:'Asia/Dhaka'},{id:'dubai',zh:'迪拜',en:'Dubai',lat:25.2048,lon:55.2708,zone:'Asia/Dubai'},{id:'riyadh',zh:'利雅得',en:'Riyadh',lat:24.7136,lon:46.6753,zone:'Asia/Riyadh'},{id:'istanbul',zh:'伊斯坦布尔',en:'Istanbul',lat:41.0082,lon:28.9784,zone:'Europe/Istanbul'},{id:'moscow',zh:'莫斯科',en:'Moscow',lat:55.7558,lon:37.6173,zone:'Europe/Moscow'},{id:'cairo',zh:'开罗',en:'Cairo',lat:30.0444,lon:31.2357,zone:'Africa/Cairo'},{id:'nairobi',zh:'内罗毕',en:'Nairobi',lat:-1.2921,lon:36.8219,zone:'Africa/Nairobi'},{id:'lagos',zh:'拉各斯',en:'Lagos',lat:6.5244,lon:3.3792,zone:'Africa/Lagos'},{id:'johannesburg',zh:'约翰内斯堡',en:'Johannesburg',lat:-26.2041,lon:28.0473,zone:'Africa/Johannesburg'},{id:'capetown',zh:'开普敦',en:'Cape Town',lat:-33.9249,lon:18.4241,zone:'Africa/Johannesburg'},{id:'london',zh:'伦敦',en:'London',lat:51.5074,lon:-.1278,zone:'Europe/London'},{id:'paris',zh:'巴黎',en:'Paris',lat:48.8566,lon:2.3522,zone:'Europe/Paris'},{id:'madrid',zh:'马德里',en:'Madrid',lat:40.4168,lon:-3.7038,zone:'Europe/Madrid'},{id:'newyork',zh:'纽约',en:'New York',lat:40.7128,lon:-74.0060,zone:'America/New_York'},{id:'toronto',zh:'多伦多',en:'Toronto',lat:43.6532,lon:-79.3832,zone:'America/Toronto'},{id:'chicago',zh:'芝加哥',en:'Chicago',lat:41.8781,lon:-87.6298,zone:'America/Chicago'},{id:'mexicocity',zh:'墨西哥城',en:'Mexico City',lat:19.4326,lon:-99.1332,zone:'America/Mexico_City'},{id:'losangeles',zh:'洛杉矶',en:'Los Angeles',lat:34.0522,lon:-118.2437,zone:'America/Los_Angeles'},{id:'vancouver',zh:'温哥华',en:'Vancouver',lat:49.2827,lon:-123.1207,zone:'America/Vancouver'},{id:'honolulu',zh:'檀香山',en:'Honolulu',lat:21.3069,lon:-157.8583,zone:'Pacific/Honolulu'},{id:'bogota',zh:'波哥大',en:'Bogotá',lat:4.7110,lon:-74.0721,zone:'America/Bogota'},{id:'lima',zh:'利马',en:'Lima',lat:-12.0464,lon:-77.0428,zone:'America/Lima'},{id:'saopaulo',zh:'圣保罗',en:'São Paulo',lat:-23.5505,lon:-46.6333,zone:'America/Sao_Paulo'},{id:'buenosaires',zh:'布宜诺斯艾利斯',en:'Buenos Aires',lat:-34.6037,lon:-58.3816,zone:'America/Argentina/Buenos_Aires'},{id:'santiago',zh:'圣地亚哥',en:'Santiago',lat:-33.4489,lon:-70.6693,zone:'America/Santiago'},{id:'sydney',zh:'悉尼',en:'Sydney',lat:-33.8688,lon:151.2093,zone:'Australia/Sydney'},{id:'melbourne',zh:'墨尔本',en:'Melbourne',lat:-37.8136,lon:144.9631,zone:'Australia/Melbourne'},{id:'auckland',zh:'奥克兰',en:'Auckland',lat:-36.8509,lon:174.7645,zone:'Pacific/Auckland'}
 ];
-const VISIBLE_CITY_ROTATION_MS=15000,CITY_SCENE_FADE_OUT_MS=300,CITY_SCENE_FADE_IN_MS=700,CITY_MOON_CROSSFADE_MS=CITY_SCENE_FADE_OUT_MS+CITY_SCENE_FADE_IN_MS,SIMPLE_STAR_OPACITY=.52,SIMPLE_STAR_TILE_SIZES=[[239,251],[371,353],[541,523],[719,769],[929,883],[1277,1193]];
+const VISIBLE_CITY_ROTATION_MS=15000,CITY_SCENE_FADE_OUT_MS=300,CITY_SCENE_FADE_IN_MS=700,CITY_MOON_CROSSFADE_MS=CITY_SCENE_FADE_OUT_MS+CITY_SCENE_FADE_IN_MS,SIMPLE_STAR_OPACITY=.52;
 let visibleCities=[],lastVisibleCitiesRefresh=0,visibleCityRotationTimer=0,visibleCityTransition=[],visibleCityTransitionCanvas=null,visibleCityIncomingCanvas=null,visibleCityStarLayers=[],visibleCityTransitionFrame=0,visibleCityTransitionResolve=null,visibleCityTransitionToken=0,visibleCityResponsiveFrame=0;
 function cityDistance(a,b){const aLat=a.lat*Math.PI/180,bLat=b.lat*Math.PI/180,dLon=(a.lon-b.lon)*Math.PI/180;return Math.acos(clamp(Math.sin(aLat)*Math.sin(bLat)+Math.cos(aLat)*Math.cos(bLat)*Math.cos(dLon),-1,1))*180/Math.PI}
 function cityMoonAltitude(city,date){const observer=new Astronomy.Observer(city.lat,city.lon,0),eq=Astronomy.Equator(Astronomy.Body.Moon,date,observer,true,true);return Astronomy.Horizon(date,observer,eq.ra,eq.dec,'normal').altitude}
@@ -1028,13 +1023,17 @@ function snapshotCityMoon(geometry=lastAstro){
   stage.appendChild(canvas);return canvas
 }
 function waitForCityTransitionPaint(){return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))}
-function randomSimpleStarPositions(){return SIMPLE_STAR_TILE_SIZES.map(([width,height])=>`${Math.round(Math.random()*width)}px ${Math.round(Math.random()*height)}px`).join(',')}
-function setRandomSimpleStarField(){const viewer=document.querySelector('.viewer');if(viewer)viewer.style.setProperty('--simple-star-position',randomSimpleStarPositions())}
+function randomSimpleStarFieldImage(){
+  const width=Math.max(360,document.documentElement.clientWidth||window.innerWidth||1200),height=Math.max(360,window.innerHeight||document.documentElement.clientHeight||800),count=clamp(Math.round(width*height/24000),38,96),colors=['#f2f6fc','#c0ccde','#ffffff','#a7b5ca','#e1eaf6'],stars=[];
+  for(let i=0;i<count;i++){const x=(Math.random()*width).toFixed(1),y=(Math.random()*height).toFixed(1),r=(.34+Math.pow(Math.random(),2)*1.18).toFixed(2),opacity=(.18+Math.random()*.42).toFixed(2),color=colors[Math.floor(Math.random()*colors.length)];stars.push(`<circle cx="${x}" cy="${y}" r="${r}" fill="${color}" fill-opacity="${opacity}"/>`)}
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">${stars.join('')}</svg>`;return`url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+}
+function setRandomSimpleStarField(){document.body.style.setProperty('--simple-star-image',randomSimpleStarFieldImage())}
 function prepareCityStarTransition(){
   const viewer=document.querySelector('.viewer');if(!viewer)return[];
-  const oldPosition=getComputedStyle(viewer,'::before').backgroundPosition,newPosition=randomSimpleStarPositions(),oldLayer=document.createElement('div'),newLayer=document.createElement('div');
-  oldLayer.className=newLayer.className='simpleStarTransitionLayer';oldLayer.setAttribute('aria-hidden','true');newLayer.setAttribute('aria-hidden','true');oldLayer.style.backgroundPosition=oldPosition;newLayer.style.backgroundPosition=newPosition;oldLayer.style.opacity=String(SIMPLE_STAR_OPACITY);newLayer.style.opacity='0';
-  viewer.style.setProperty('--simple-star-position',newPosition);viewer.classList.add('city-star-transitioning');viewer.append(oldLayer,newLayer);visibleCityStarLayers=[oldLayer,newLayer];
+  const oldImage=getComputedStyle(viewer,'::before').backgroundImage,newImage=randomSimpleStarFieldImage(),oldLayer=document.createElement('div'),newLayer=document.createElement('div');
+  oldLayer.className=newLayer.className='simpleStarTransitionLayer';oldLayer.setAttribute('aria-hidden','true');newLayer.setAttribute('aria-hidden','true');oldLayer.style.backgroundImage=oldImage;newLayer.style.backgroundImage=newImage;oldLayer.style.opacity=String(SIMPLE_STAR_OPACITY);newLayer.style.opacity='0';
+  document.body.style.setProperty('--simple-star-image',newImage);viewer.classList.add('city-star-transitioning');viewer.append(oldLayer,newLayer);visibleCityStarLayers=[oldLayer,newLayer];
   return visibleCityStarLayers
 }
 async function selectFeaturedCity(city,animate=false){
@@ -1816,7 +1815,7 @@ function animate(now){const dt=(now-lastFrame)/1000;lastFrame=now;if(state.uiMod
 
 // ---------- Init ----------
 document.addEventListener('DOMContentLoaded', function() {
-  (function init(){el('earthV').textContent=(state.earth*100).toFixed(1)+'%';el('contrastV').textContent=state.contrast.toFixed(2)+'×';updateDanjonLabel();updateFreeReadout();setNow();if(!refreshVisibleCities(true))resolveTimeZoneForLocation('Asia/Shanghai');setMode('astro');applyLanguage('zh');loadAmap();requestAnimationFrame(animate)})();
+  (function init(){setRandomSimpleStarField();el('earthV').textContent=(state.earth*100).toFixed(1)+'%';el('contrastV').textContent=state.contrast.toFixed(2)+'×';updateDanjonLabel();updateFreeReadout();setNow();if(!refreshVisibleCities(true))resolveTimeZoneForLocation('Asia/Shanghai');setMode('astro');applyLanguage('zh');loadAmap();requestAnimationFrame(animate)})();
 });
 </script>
 </body></html>
