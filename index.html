@@ -1287,10 +1287,11 @@ el('timeInput').addEventListener('change',()=>{state.simDate=inputValueToDate(el
 
 // ---------- 4800 × 4800 observation export ----------
 const EXPORT_SIZE=4800,EXPORT_LAYOUT_SIZE=2400,EXPORT_RENDER_BASE_SIZE=2048;
+function hasHanCharacters(value){return typeof value==='string'&&/[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]/.test(value)}
 function exportLocationTypography(){
   if(!state.locationName)return{text:'',language:currentLang};
   const preferred=typeof state.locationName[currentLang]==='string'?state.locationName[currentLang].trim():'',fallbackLanguage=currentLang==='zh'?'en':'zh',fallback=typeof state.locationName[fallbackLanguage]==='string'?state.locationName[fallbackLanguage].trim():'';
-  return preferred?{text:preferred,language:currentLang}:fallback?{text:fallback,language:fallbackLanguage}:{text:'',language:currentLang}
+  const text=preferred||fallback;return text?{text,language:hasHanCharacters(text)?'zh':'en'}:{text:'',language:currentLang}
 }
 function exportLocationLabel(){return exportLocationTypography().text}
 function exportCoordinateLabel(){const ns=state.lat>=0?'N':'S',ew=state.lon>=0?'E':'W';return`${Math.abs(state.lat).toFixed(2)}° ${ns}   ${Math.abs(state.lon).toFixed(2)}° ${ew}`}
@@ -1405,7 +1406,8 @@ async function globalGeocoderCity(lat,lon,lang){
 async function reverseGeocodeLocationName(lat,lon){
   let zh=null,en=null;
   if(!outChina(lat,lon)&&await waitForAmapGeocoder()){const gcj=wgsToGcj(lat,lon),position=[gcj[1],gcj[0]],local=await Promise.all([geocoderCity(position,'zh_cn'),geocoderCity(position,'en')]);zh=local[0];en=local[1]}
-  if(!zh||!en){const global=await Promise.all([zh?Promise.resolve(null):globalGeocoderCity(lat,lon,'zh-Hans'),en?Promise.resolve(null):globalGeocoderCity(lat,lon,'en')]);zh=zh||global[0];en=en||global[1]}
+  if(!zh||!en){const global=await Promise.all([zh?Promise.resolve(null):globalGeocoderCity(lat,lon,'zh-Hans'),en?Promise.resolve(null):globalGeocoderCity(lat,lon,'en')]),localizedZh=global[0],localizedEn=global[1];if(!zh&&hasHanCharacters(localizedZh))zh=localizedZh;if(!en)en=localizedEn||(!hasHanCharacters(localizedZh)?localizedZh:null)}
+  if(zh&&!hasHanCharacters(zh)){en=en||zh;zh=null}
   if(!zh&&!en)return null;return{zh:zh||'',en:en||''}
 }
 function lookupLocationNameInBackground(lat,lon,onResolved=null){
