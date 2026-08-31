@@ -1,5 +1,9 @@
 # 观月｜真实月相
 
+<p align="right">
+  <strong>中文</strong> · <a href="./README_EN.md">English</a>
+</p>
+
 > 从此刻、此地出发，在浏览器中观察真实月相、月面姿态与月球相关天象。
 
 [![在线体验](https://img.shields.io/badge/在线体验-GitHub%20Pages-24292f?logo=github)](https://moon-observer.github.io/moon-viewer/)
@@ -206,7 +210,8 @@ moon-viewer/
 │   ├── 8192/                     # 8K 高程 PNG 瓦片
 │   └── 16384/                    # 16K 高程 PNG 瓦片
 ├── xhs_qr.jpeg                   # 小红书主页二维码
-├── README.md
+├── README.md                     # 中文说明（默认）
+├── README_EN.md                  # English documentation
 └── LICENSE
 ```
 
